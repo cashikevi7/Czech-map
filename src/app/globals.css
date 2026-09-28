@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+
+/*
+ * Note: raster OSM tiles must NOT be CSS-inverted for dark mode — that turns
+ * the light tiles black. The map stays light while the surrounding UI adapts.
+ */
+.maplibregl-ctrl-group {
+  background: rgb(255 255 255 / 0.9);
+}

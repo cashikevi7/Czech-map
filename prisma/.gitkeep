@@ -1,0 +1,5 @@
+# Prisma engine binaries
+node_modules/.prisma
+
+# Keep the migrations folder
+!prisma/migrations

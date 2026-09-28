@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: openmind
+      POSTGRES_PASSWORD: openmind
+      POSTGRES_DB: openmind
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U openmind"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://openmind:openmind@db:5432/openmind?schema=public
+      AUTH_SECRET: change-me-in-production
+      AUTH_TRUST_HOST: "true"
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:
